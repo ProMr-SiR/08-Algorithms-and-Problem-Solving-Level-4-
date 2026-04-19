@@ -115,15 +115,20 @@ int GetDifferenceInDays(stDate Date1, stDate Date2, bool IncludeEndDay = false)
     return IncludeEndDay ? ++Days : Days;
 }
 
-short DayOfWeekOrder(stDate Date)
+short DayOfWeekOrder(short Day, short Month, short Year)
 {
     short a, y, m;
-    a = (14 - Date.Month) / 12;
-    y = Date.Year - a;
-    m = Date.Month + (12 * a) - 2;
+    a = (14 - Month) / 12;
+    y = Year - a;
+    m = Month + (12 * a) - 2;
     // Gregorian:
-    //0:sun, 1:Mon, 2:Tue...etc
-    return (Date.Day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+    // 0:sun, 1:Mon, 2:Tue...etc
+    return (Day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+}
+
+short DayOfWeekOrder(stDate Date)
+{
+    return DayOfWeekOrder(Date.Day, Date.Month, Date.Year);
 }
 
 string DayShortName(short DayOfWeekOrder)
